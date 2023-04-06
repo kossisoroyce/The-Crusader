@@ -45,20 +45,17 @@ clamscan_command = 'clamscan -r -i %s' % wp_content_path
 process = subprocess.Popen(clamscan_command.split(), stdout=subprocess.PIPE)
 output, error = process.communicate()
 
-# Check if malware was found and send an email and text message if it was
-if "Infected files: 0" not in str(output):
-    # Send email
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(email_address, email_password)
-    message = "Subject: Malware Found on %s\n\nThe ClamAV scan on %s found malware in the wp-content directory.\n\n%s" % (url, url, str(output))
-    server.sendmail(email_address, recipient_email, message)
-    server.quit()
-    
-    # Send text message
-    client = Client(account_sid, auth_token)
-    message = client.messages.create(
-        body="Malware found on %s! Check your email for details." % url,
-        from_=twilio_phone_number,
-        to=recipient_phone_number
-    )
+# Send email and text message with the scan results
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login(email_address, email_password)
+message = "Subject: ClamAV Scan Results for %s\n\nThe ClamAV scan on %s found the following:\n\n%s" % (url, url, str(output))
+server.sendmail(email_address, recipient_email, message)
+server.quit()
+
+client = Client(account_sid, auth_token)
+message = client.messages.create(
+    body="ClamAV scan results for %s sent to %s" % (url, recipient_email),
+    from_=twilio_phone_number,
+    to=recipient_phone_number
+)
