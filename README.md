@@ -1,5 +1,7 @@
 # The-Crusader
-"The Crusader" is a powerful Python script that scans web servers and WordPress installations for malware and other types of malicious software. It sends an alert email and text message to the website owner if it finds any issues. This tool helps cybersecurity analysts to protect their web assets and prevent cyber attacks.
+"The Crusader" i is a repository containing a Python script designed to help protect web servers from malware and other types of malicious software.
+
+The script scans web servers, including WordPress installations, for signs of malware and other malicious software. If any threats are detected, the script sends an email notification to the website owner, allowing them to take immediate action and prevent any further damage.
 
 # Here's a general how-to guide to get started with using The Crusader:
 
